@@ -1,4 +1,6 @@
+.idea
 venv
+.idea/
+venv/
 *.pyc
 db.sqlite3
-.idea

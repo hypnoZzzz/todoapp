@@ -13,7 +13,7 @@
     {% endfor %}
     </ul>
   <ul id="todo-list">
-  {% for task in tasks %}
+  {% for task in user_tasks %}
     {% if task.is_completed %}
     <li class="completed">
       <input class='checkbox' data-uid={{ task.id }} type='checkbox' disabled='disabled' checked='checked'/>
