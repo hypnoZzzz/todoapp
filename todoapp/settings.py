@@ -7,7 +7,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'please-set-secret-key-through-env')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost:8000',
+    '127.0.0.1:8000',
+    'https://ancient-chamber-20340.herokuapp.com/']
 
 
 INSTALLED_APPS = [
@@ -66,18 +69,19 @@ LANGUAGE_CODE = 'ru-RU'
 django_heroku.settings(locals())
 
 
-def get_cache():
-    environment_ready = all(
-        os.environ.get(f'MEMCACHIER_{key}', False)
-        for key in ['SERVERS', 'USERNAME', 'PASSWORD']
-    )
-    if not environment_ready:
-        cache = {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}
-    else:
-        servers = os.environ['MEMCACHIER_SERVERS']
-        username = os.environ['MEMCACHIER_USERNAME']
-        password = os.environ['MEMCACHIER_PASSWORD']
-        cache = {
+# def get_cache():
+#     environment_ready = all(
+#         os.environ.get(f'MEMCACHIER_{key}', False)
+#         for key in ['SERVERS', 'USERNAME', 'PASSWORD']
+#     )
+#     if not environment_ready:
+#         cache = {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}
+#     else:
+servers = os.environ['MEMCACHIER_SERVERS']
+username = os.environ['MEMCACHIER_USERNAME']
+password = os.environ['MEMCACHIER_PASSWORD']
+
+CACHES = {
             'default': {
                 'BACKEND': 'django_bmemcached.memcached.BMemcached',
                 'TIMEOUT': None,
@@ -88,7 +92,7 @@ def get_cache():
                 }
             }
         }
-    return {'default': cache}
-
-
-CACHES = get_cache()
+#     return {'default': cache}
+#
+#
+# CACHES = get_cache()
