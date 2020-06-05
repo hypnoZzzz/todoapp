@@ -10,8 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost:8000',
     '127.0.0.1:8000',
-    'https://pure-taiga-60840.herokuapp.com/']
-
+    'https://ancient-chamber-20340.herokuapp.com/']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,11 +19,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
-    'rest-framework',
+    'tasks.apps.TasksConfig',
 ]
 
-ROOT_URLCONF = 'blog.urls'
+ROOT_URLCONF = 'todoapp.urls'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -36,11 +34,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -55,7 +52,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todoapp.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -63,17 +59,26 @@ DATABASES = {
     }
 }
 
-
 LANGUAGE_CODE = 'ru-RU'
-
 
 django_heroku.settings(locals())
 
-STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+servers = os.environ['MEMCACHIER_SERVERS']
+username = os.environ['MEMCACHIER_USERNAME']
+password = os.environ['MEMCACHIER_PASSWORD']
 
+CACHES = {
+    'default': {
 
+        'BACKEND': 'django_bmemcached.memcached.BMemcached',
 
+        'TIMEOUT': None,
 
+        'LOCATION': servers,
+
+        'OPTIONS': {
+            'username': username,
+            'password': password,
+        }
+    }
+}
