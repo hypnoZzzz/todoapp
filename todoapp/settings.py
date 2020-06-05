@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'rest-framework',
 ]
 
-ROOT_URLCONF = 'app.urls'
+ROOT_URLCONF = 'blog.urls'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
