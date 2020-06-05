@@ -10,7 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost:8000',
     '127.0.0.1:8000',
-    'https://ancient-chamber-20340.herokuapp.com/']
+    'https://pure-taiga-60840.herokuapp.com/']
 
 
 INSTALLED_APPS = [
@@ -20,10 +20,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tasks.apps.TasksConfig',
+    'app',
+    'rest-framework',
 ]
 
-ROOT_URLCONF = 'todoapp.urls'
+ROOT_URLCONF = 'app.urls'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -68,31 +69,11 @@ LANGUAGE_CODE = 'ru-RU'
 
 django_heroku.settings(locals())
 
+STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [STATIC_DIR]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# def get_cache():
-#     environment_ready = all(
-#         os.environ.get(f'MEMCACHIER_{key}', False)
-#         for key in ['SERVERS', 'USERNAME', 'PASSWORD']
-#     )
-#     if not environment_ready:
-#         cache = {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}
-#     else:
-servers = os.environ['MEMCACHIER_SERVERS']
-username = os.environ['MEMCACHIER_USERNAME']
-password = os.environ['MEMCACHIER_PASSWORD']
 
-CACHES = {
-            'default': {
-                'BACKEND': 'django_bmemcached.memcached.BMemcached',
-                'TIMEOUT': None,
-                'LOCATION': servers,
-                'OPTIONS': {
-                    'username': username,
-                    'password': password,
-                }
-            }
-        }
-#     return {'default': cache}
-#
-#
-# CACHES = get_cache()
+
+
